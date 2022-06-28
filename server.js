@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const bodyParser = require('body-parser');
 
 const usersRoute = require('./routes/api/users');
 const authRoute = require('./routes/api/auth');
@@ -10,6 +11,9 @@ const app = express ();
 
 //connct database
 connectDB();
+
+//Init Middleware
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => res.send('API Running'))
 
