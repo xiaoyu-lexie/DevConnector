@@ -135,7 +135,7 @@ router.get('/user/:user_id', async (req, res) => {
   try {
     const profile = await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar']);
 
-    // this would run when we have a valid user_id(valid or invalid depends on length of user_id); But if we have invalid user_id, the previous line would lead to an error, which would be catched in IF statement of CATCH statement
+    // this would run when we have a valid user_id(valid or invalid depends on length of user_id); But if we have invalid user_id, the previous line would lead to an error, which would be catched in IF statement of CATCH statement; here is to illustrate situation of valid userid, but cannot found profile
     if (!profile) {
       return res.status(500).json({msg: 'There is no matched profile found'})
     }
