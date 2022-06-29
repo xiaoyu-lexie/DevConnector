@@ -1,5 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://xiaoyu123:xiaoyu123@cluster0.f3y7s.mongodb.net/?retryWrites=true&w=majority",
-  "jwtSecret": "whatever",
-  "githubOauthToken": "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"
-}
