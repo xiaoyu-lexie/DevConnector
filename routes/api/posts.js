@@ -55,47 +55,8 @@ router.get('/', auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
-})
-
-// @route    Get api/posts/:post_id
-// @desc     get current user posts
-// @access   Private
-router.get('/:post_id', auth, async (req, res) => {
-  try {
-    const postId = req.params.post_id;
-    // sort order is most recent first
-    const post = await Post.findById(postId);
-
-    // same with profile valid/invalid id
-    if (!post) {
-      return res.status(404).json({msg: 'Post not found'})
-    }
-
-    res.json(post);
-  } catch (err) {
-    console.error(err.message);
-
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({msg: 'Invalid post id. Post not found'})
-    }
-
-    res.status(500).send('Server Error');
-  }
 });
 
-// @route    Get api/posts
-// @desc     get all posts
-// @access   Private 也可以是public，但因为我们想让前端设计为 用户登陆后才能看到所有的posts，所以这里为private；注意和profiles区分，profiles是public的
-router.get('/', auth, async (req, res) => {
-  try {
-    // sort order is most recent first
-    const posts = await Post.find().sort({date: -1});
-    res.json(posts);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-})
 
 // @route    Get api/posts/:post_id
 // @desc     get a post by postid
