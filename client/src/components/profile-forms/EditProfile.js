@@ -31,6 +31,7 @@ const EditProfile = ({
 
   useEffect(() => {
     getCurrentProfile();
+    // console.log("runn me");
 
     setFormData({
       // this means if loading or has no profile company, return ''; if not loading and has company, return profile.company
@@ -48,7 +49,7 @@ const EditProfile = ({
       youtube: loading || !profile.youtube ? "" : profile.youtube,
       instagram: loading || !profile.instagram ? "" : profile.instagram,
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const {
     company,
@@ -65,8 +66,9 @@ const EditProfile = ({
     instagram,
   } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -182,8 +184,8 @@ const EditProfile = ({
 
         {displaySocialInputs && (
           <>
-            <div class="form-group social-input">
-              <i class="fab fa-twitter fa-2x"></i>
+            <div className="form-group social-input">
+              <i className="fab fa-twitter fa-2x"></i>
               <input
                 type="text"
                 placeholder="Twitter URL"
@@ -193,8 +195,8 @@ const EditProfile = ({
               />
             </div>
 
-            <div class="form-group social-input">
-              <i class="fab fa-facebook fa-2x"></i>
+            <div className="form-group social-input">
+              <i className="fab fa-facebook fa-2x"></i>
               <input
                 type="text"
                 placeholder="Facebook URL"
@@ -204,8 +206,8 @@ const EditProfile = ({
               />
             </div>
 
-            <div class="form-group social-input">
-              <i class="fab fa-youtube fa-2x"></i>
+            <div className="form-group social-input">
+              <i className="fab fa-youtube fa-2x"></i>
               <input
                 type="text"
                 placeholder="YouTube URL"
@@ -215,8 +217,8 @@ const EditProfile = ({
               />
             </div>
 
-            <div class="form-group social-input">
-              <i class="fab fa-linkedin fa-2x"></i>
+            <div className="form-group social-input">
+              <i className="fab fa-linkedin fa-2x"></i>
               <input
                 type="text"
                 placeholder="Linkedin URL"
@@ -226,8 +228,8 @@ const EditProfile = ({
               />
             </div>
 
-            <div class="form-group social-input">
-              <i class="fab fa-instagram fa-2x"></i>
+            <div className="form-group social-input">
+              <i className="fab fa-instagram fa-2x"></i>
               <input
                 type="text"
                 placeholder="Instagram URL"
@@ -239,7 +241,7 @@ const EditProfile = ({
           </>
         )}
 
-        <input type="submit" class="btn btn-primary my-1" />
+        <input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
         </Link>

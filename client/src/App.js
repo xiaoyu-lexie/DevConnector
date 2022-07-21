@@ -12,6 +12,10 @@ import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import AddExperience from "./components/profile-forms/AddExperience";
 import AddEducation from "./components/profile-forms/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 
 //Redux
 import { Provider } from "react-redux";
@@ -40,6 +44,8 @@ const App = () => {
             <Route exact path="/" element={<Landing />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/login" element={<Login />} />
+            <Route exact path="/profiles" element={<Profiles />} />
+            <Route exact path="/profile/:id" element={<Profile />} />
             {/* https://stackoverflow.com/questions/69864165/error-privateroute-is-not-a-route-component-all-component-children-of-rou */}
             <Route exact path="/dashboard" element={<PrivateRoute />}>
               <Route exact path="/dashboard" element={<Dashboard />} />
@@ -55,6 +61,12 @@ const App = () => {
             </Route>
             <Route exact path="/add-education" element={<PrivateRoute />}>
               <Route exact path="/add-education" element={<AddEducation />} />
+            </Route>
+            <Route exact path="/posts" element={<PrivateRoute />}>
+              <Route exact path="/posts" element={<Posts />} />
+            </Route>
+            <Route exact path="/posts/:id" element={<PrivateRoute />}>
+              <Route exact path="/posts/:id" element={<Post />} />
             </Route>
           </Routes>
         </section>
