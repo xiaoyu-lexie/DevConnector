@@ -47,6 +47,7 @@ const authReducer = (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
         loading: false, // even though it failed, it's still done loading
+        user: null, // this is new added by myself
       };
     default:
       return state;

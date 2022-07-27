@@ -5,9 +5,11 @@ const router = exporess.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
+const cloudinary = require("../../config/cloudinary");
+
 const Profile = require("../../models/Profile");
 // the models/user is a small typo, but not influence running
-const User = require("../../models/user");
+const user = require("../../models/user");
 const Post = require("../../models/Posts");
 
 // @route    GET api/profile/me
@@ -54,6 +56,7 @@ router.post(
 
     // destructure the request
     const {
+      avatar,
       company,
       website,
       location,
@@ -70,29 +73,60 @@ router.post(
       ...rest
     } = req.body;
 
-    //Build profile object
-    const profileFields = {};
-
-    profileFields.user = req.user.id;
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
-    if (location) profileFields.location = location;
-    if (bio) profileFields.bio = bio;
-    if (status) profileFields.status = status;
-    if (githubusername) profileFields.githubusername = githubusername;
-    if (skills) {
-      profileFields.skills = skills.split(",").map((skill) => skill.trim());
-    }
-
-    //Build social object
-    profileFields.social = {};
-    if (youtube) profileFields.social.youtube = youtube;
-    if (twitter) profileFields.social.twitter = twitter;
-    if (facebook) profileFields.social.facebook = facebook;
-    if (instagram) profileFields.social.instagram = instagram;
-    if (linkedin) profileFields.social.linkedin = linkedin;
-
     try {
+      // check if avatar is newly uploaded or not
+      if (avatar !== "") {
+        // deal with image
+
+        const uploadedImage = await cloudinary.v2.uploader.upload(avatar, {
+          folder: "avatar",
+        });
+        // const avatarURL = uploadedImage.url;
+        // const updatedAvatar = avatarURL;
+
+        const publicId = uploadedImage.public_id;
+
+        const width = uploadedImage.width;
+
+        EditedImageURL = await cloudinary.url(publicId, {
+          aspect_ratio: "1:1",
+          background: "#ffffff",
+          border: "2px_solid_rgb:ffffff",
+          gravity: "auto",
+          radius: "max",
+          width: width,
+          crop: "fill",
+        });
+
+        await user.findOneAndUpdate(
+          { _id: req.user.id },
+          { avatar: EditedImageURL }
+        );
+      }
+
+      //Build profile object
+      const profileFields = {};
+
+      profileFields.user = req.user.id;
+      if (company) profileFields.company = company;
+      if (website) profileFields.website = website;
+      if (location) profileFields.location = location;
+      if (bio) profileFields.bio = bio;
+      if (status) profileFields.status = status;
+      if (githubusername) profileFields.githubusername = githubusername;
+      if (skills) {
+        // use regular expression would be better
+        profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      }
+
+      //Build social object
+      profileFields.social = {};
+      if (youtube) profileFields.social.youtube = youtube;
+      if (twitter) profileFields.social.twitter = twitter;
+      if (facebook) profileFields.social.facebook = facebook;
+      if (instagram) profileFields.social.instagram = instagram;
+      if (linkedin) profileFields.social.linkedin = linkedin;
+
       let profile = await Profile.findOne({ user: req.user.id });
 
       // Upfate Profile

@@ -29,26 +29,6 @@ const Register = (props) => {
       setAlert("password not match", "danger");
     } else {
       register({ name, email, password });
-      // const newUser = {
-      //   name,
-      //   email,
-      //   password,
-      // };
-
-      // try {
-      //   const config = {
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //   };
-
-      //   const body = JSON.stringify(newUser);
-
-      //   const res = await axios.post("/api/users", body, config);
-      //   console.log(res.data);
-      // } catch (err) {
-      //   console.error(err.response.data);
-      // }
     }
   };
 
@@ -75,7 +55,7 @@ const Register = (props) => {
             name="name"
             value={name}
             onChange={(e) => onChange(e)}
-            // required
+            required
           />
         </div>
         <div className="form-group">
@@ -85,12 +65,8 @@ const Register = (props) => {
             name="email"
             value={email}
             onChange={(e) => onChange(e)}
-            // required
+            required
           />
-          <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
         </div>
         <div className="form-group">
           <input

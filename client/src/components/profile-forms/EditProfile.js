@@ -13,6 +13,7 @@ const EditProfile = ({
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    avatar: "",
     company: "",
     website: "",
     location: "",
@@ -34,6 +35,7 @@ const EditProfile = ({
     // console.log("runn me");
 
     setFormData({
+      avatar: "",
       // this means if loading or has no profile company, return ''; if not loading and has company, return profile.company
       company: loading || !profile.company ? "" : profile.company,
       website: loading || !profile.website ? "" : profile.website,
@@ -84,6 +86,24 @@ const EditProfile = ({
       </p>
       <small>* = required field</small>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
+        {" "}
+        <div className="form-group">
+          <input
+            type="file"
+            name="myImage"
+            onChange={(event) => {
+              // console.log("this", event.target.files[0]);
+
+              // use FileReader to convert image from file to base64
+              const reader = new FileReader();
+              reader.readAsDataURL(event.target.files[0]);
+              reader.onloadend = () => {
+                setFormData({ ...formData, avatar: reader.result });
+              };
+            }}
+          />
+          <small className="form-text">Choose your avatar</small>
+        </div>
         <div className="form-group">
           <select name="status" vlaue={status} onChange={(e) => onChange(e)}>
             <option value="0">* Select Professional Status</option>
@@ -170,7 +190,6 @@ const EditProfile = ({
           ></textarea>
           <small className="form-text">Tell us a little about yourself</small>
         </div>
-
         <div className="my-2">
           <button
             onClick={() => toggleSocialInputs(!displaySocialInputs)}
@@ -181,7 +200,6 @@ const EditProfile = ({
           </button>
           <span>Optional</span>
         </div>
-
         {displaySocialInputs && (
           <>
             <div className="form-group social-input">
@@ -240,7 +258,6 @@ const EditProfile = ({
             </div>
           </>
         )}
-
         <input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">
           Go Back

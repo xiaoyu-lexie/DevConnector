@@ -17,6 +17,7 @@ import setAuthToken from "../utils/setAuthToken";
 export const loadUser = () => async (dispatch) => {
   // if we have a valid token, I want to send it in the global header
   if (localStorage.token) {
+    //setAuthToken is to set up axios.defaults.headers.common["x-auth-token"] = token
     setAuthToken(localStorage.token);
   }
 
